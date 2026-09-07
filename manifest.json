@@ -1,5 +1,5 @@
 {
-  "name": "Kakali Enterprise Business Manager",
+  "name": "Kakali Enterprise Business Manager 1.5",
   "short_name": "Kakali Enterprise",
   "description": "Turn your shop notebook into a simple digital business system — sales, stock, khata, expenses, and bills, all offline on your device.",
   "start_url": "./index.html",
@@ -34,6 +34,13 @@
       "name": "Dashboard",
       "short_name": "Dashboard",
       "url": "./index.html#dashboard",
+      "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Quick Bill",
+      "short_name": "Quick Bill",
+      "description": "Scan a product QR code and make a bill",
+      "url": "./index.html#quick-bill",
       "icons": [{ "src": "icons/icon-96.png", "sizes": "96x96" }]
     }
   ]

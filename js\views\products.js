@@ -154,10 +154,19 @@ function openProductModal(id) {
           <label>${t('notes')}</label>
           <textarea class="input" name="notes">${editing ? escapeHtml(editing.notes || '') : ''}</textarea>
         </div>
+        <div class="field">
+          <label>Product image URL <span class="text-muted">(optional)</span></label>
+          <input class="input" name="image" type="url" value="${editing ? escapeHtml(editing.image || '') : ''}" placeholder="https://…">
+        </div>
+        <div class="field">
+          <label>Extra QR label details <span class="text-muted">(optional)</span></label>
+          <textarea class="input" name="qrDetails" placeholder="Size, colour, offer, or any information to include in the QR">${editing ? escapeHtml(editing.qrDetails || '') : ''}</textarea>
+        </div>
       </form>
     `,
     footerHtml: `
       ${editing ? `<button class="btn btn-outline" id="delProdBtn" style="flex:0;color:var(--red-600);border-color:var(--red-200,var(--ink-200));"><i class="fa-solid fa-trash"></i></button>` : ''}
+      ${editing ? `<button class="btn btn-outline" id="productQrBtn" title="Generate product QR"><i class="fa-solid fa-qrcode"></i></button>` : ''}
       <button class="btn btn-primary btn-block" id="saveProdBtn">${editing ? t('update') : t('save')}</button>
     `,
   });
@@ -182,6 +191,8 @@ function openProductModal(id) {
       supplierId: fd.get('supplierId') || null,
       taxRate: parseFloat(fd.get('taxRate')) || 0,
       notes: fd.get('notes').trim(),
+      image: fd.get('image').trim(),
+      qrDetails: fd.get('qrDetails').trim(),
       createdAt: editing ? editing.createdAt : Date.now(),
     };
     await DB.put('products', obj);
@@ -194,6 +205,7 @@ function openProductModal(id) {
   };
 
   if (editing) {
+    overlay.querySelector('#productQrBtn').onclick = () => openProductQrModal(editing);
     overlay.querySelector('#delProdBtn').onclick = async () => {
       const ok = await confirmDialog({ message: t('confirmDelete'), danger: true, confirmLabel: t('delete') });
       if (!ok) return;

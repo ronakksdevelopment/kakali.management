@@ -2,7 +2,7 @@
    SERVICE-WORKER.JS — offline caching for Kakali Enterprise
    ============================================================ */
 
-const CACHE_NAME = 'kakali-enterprise-v1';
+const CACHE_NAME = 'kakali-enterprise-v1.5.1';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -30,6 +30,7 @@ const CORE_ASSETS = [
   './js/views/reminders.js',
   './js/views/search.js',
   './js/views/settings.js',
+  './js/views/quick-bill.js',
   './icons/icon-72.png',
   './icons/icon-96.png',
   './icons/icon-128.png',

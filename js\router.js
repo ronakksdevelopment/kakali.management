@@ -7,6 +7,7 @@ const ROUTES = {
   sales: () => renderSalesList(),
   'sales/new': () => renderSaleForm(),
   'sales/view': (p) => renderSaleDetail(p.id),
+  'quick-bill': () => renderQuickBill(),
   products: () => renderProductsList(),
   purchases: () => renderPurchasesList(),
   'purchases/new': () => renderPurchaseForm(),
@@ -37,6 +38,7 @@ const SIDEBAR_SECTIONS = [
     { key: 'dashboard', icon: 'fa-house', label: 'dashboard' },
   ]},
   { label: 'Business', items: [
+    { key: 'quick-bill', icon: 'fa-qrcode', label: 'Quick Bill' },
     { key: 'sales', icon: 'fa-cart-shopping', label: 'sales' },
     { key: 'purchases', icon: 'fa-truck', label: 'purchases' },
     { key: 'products', icon: 'fa-box', label: 'products' },
@@ -75,7 +77,8 @@ function parseHash() {
     return { route: `${parts[0]}/view`, params: { id: parts[2] } };
   }
   if (parts[1] === 'new') return { route: `${parts[0]}/new`, params: {} };
-  return { route: parts[0], params: {} };
+  const twoPartRoute = parts.slice(0, 2).join('/');
+  return { route: ROUTES[twoPartRoute] ? twoPartRoute : parts[0], params: {} };
 }
 
 function renderView() {
@@ -127,6 +130,7 @@ function renderShellNav() {
 
 function renderMore() {
   const items = [
+    { key: 'quick-bill', icon: 'fa-qrcode', label: 'Quick Bill' },
     { key: 'purchases', icon: 'fa-truck', label: 'purchases' },
     { key: 'customers', icon: 'fa-users', label: 'customers' },
     { key: 'suppliers', icon: 'fa-truck-field', label: 'suppliers' },
@@ -156,6 +160,7 @@ function renderMore() {
 
 function openQuickActionSheet() {
   actionSheet([
+    { icon: 'fa-qrcode', label: 'Quick Bill', bg: 'var(--blue-100)', color: 'var(--blue-700)', onClick: () => navigate('quick-bill') },
     { icon: 'fa-bolt', label: t('quickSell'), bg: 'var(--gold-100)', color: 'var(--gold-700)', onClick: () => openQuickSellModal() },
     { icon: 'fa-cart-shopping', label: t('sale'), bg: 'var(--blue-100)', color: 'var(--blue-700)', onClick: () => navigate('sales/new') },
     { icon: 'fa-money-bill-wave', label: t('expense'), bg: 'var(--red-100)', color: 'var(--red-700)', onClick: () => openExpenseModal() },

@@ -274,3 +274,12 @@ textarea.input { min-height: 88px; resize: vertical; }
 .settings-row.clickable:hover { background: var(--bg-alt); }
 
 hr.divider { border: none; border-top: 1px solid var(--ink-100); margin: var(--sp-4) 0; }
+
+/* Quick Bill live scanner: the guide is decorative and never blocks the camera. */
+.quick-camera-frame { position: relative; min-height: 205px; overflow: hidden; border-radius: var(--r-lg); background: #101827; border: 2px solid var(--blue-600); }
+.quick-camera-frame #quickScanner { min-height: 205px; }
+.quick-camera-frame #quickScanner video { width: 100% !important; min-height: 205px; object-fit: cover; }
+.quick-camera-frame #quickScanner > div { border: 0 !important; }
+.quick-scan-guide { position: absolute; inset: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; }
+.quick-scan-guide span { width: min(78%, 280px); height: 130px; border: 3px solid #fff; border-radius: 16px; box-shadow: 0 0 0 999px rgba(0,0,0,.17); }
+.quick-scan-guide em { position: absolute; bottom: 14px; color: #fff; font-size: 12px; font-style: normal; font-weight: 700; background: rgba(0,0,0,.58); padding: 5px 10px; border-radius: 999px; }

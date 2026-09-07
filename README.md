@@ -1,4 +1,4 @@
-# Kakali Enterprise Business Manager v1.0
+# Kakali Enterprise Business Manager v1.5
 
 A complete, offline-first Progressive Web App for managing a local shop or small
 business — sales, stock, customer/supplier ledgers (khata), expenses, purchases,
@@ -71,6 +71,11 @@ assets/               Source logo
 - Sales: cart-based new sale flow, discounts, tax, multiple payment methods,
   partial/full payment, auto invoice numbering, printable/shareable bills,
   WhatsApp share, duplicate-sale shortcut.
+- Quick Bill: rear/front camera QR scanner, manual product-code fallback,
+  editable quantity/removal checkout list, subtotal, saved bills, print, and
+  optional WhatsApp receipt sharing.
+- Product QR labels: optional image and extra details, a Kakali QR payload,
+  branded centre logo, and PNG download for printing and attachment to stock.
 - Products & stock: low-stock alerts, categories, units, per-product tax
   rate, stock history log.
 - Purchases: restocking from suppliers with automatic stock and supplier
