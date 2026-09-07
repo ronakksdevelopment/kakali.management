@@ -11,6 +11,9 @@ const I18N = {
     expenses: "Expenses", income: "Income", payments: "Payments", reports: "Reports",
     reminders: "Reminders", settings: "Settings", search: "Search", about: "About",
     newSale: "New Sale", bills: "Bills", stock: "Stock", backupRestore: "Backup & Restore",
+    quickSell: "Quick Sell", quickSellDesc: "Just enter the amount — like writing it in your khata.",
+    enterAmount: "Enter Amount", markAsPaid: "Mark as Fully Paid", markAsDue: "Mark as Fully Due",
+    saveQuick: "Save",
 
     today: "Today", yesterday: "Yesterday", thisWeek: "This Week", thisMonth: "This Month", custom: "Custom",
     salesLabel: "Sales", received: "Received", customerDue: "Customer Due", supplierDue: "Supplier Due",
@@ -116,6 +119,9 @@ const I18N = {
     expenses: "খরচ", income: "আয়", payments: "পেমেন্ট", reports: "রিপোর্ট",
     reminders: "রিমাইন্ডার", settings: "সেটিংস", search: "খুঁজুন", about: "সম্পর্কে",
     newSale: "নতুন বিক্রয়", bills: "বিল", stock: "স্টক", backupRestore: "ব্যাকআপ ও পুনরুদ্ধার",
+    quickSell: "কুইক সেল", quickSellDesc: "শুধু টাকার পরিমাণ লিখুন — খাতায় লেখার মতোই সহজ।",
+    enterAmount: "টাকার পরিমাণ লিখুন", markAsPaid: "সম্পূর্ণ পরিশোধিত", markAsDue: "সম্পূর্ণ বাকি",
+    saveQuick: "সংরক্ষণ করুন",
 
     today: "আজ", yesterday: "গতকাল", thisWeek: "এই সপ্তাহ", thisMonth: "এই মাস", custom: "কাস্টম",
     salesLabel: "বিক্রয়", received: "প্রাপ্ত", customerDue: "গ্রাহক বাকি", supplierDue: "সরবরাহকারী বাকি",
@@ -221,6 +227,9 @@ const I18N = {
     expenses: "खर्च", income: "आय", payments: "भुगतान", reports: "रिपोर्ट",
     reminders: "रिमाइंडर", settings: "सेटिंग्स", search: "खोजें", about: "बारे में",
     newSale: "नई बिक्री", bills: "बिल", stock: "स्टॉक", backupRestore: "बैकअप और पुनर्स्थापना",
+    quickSell: "क्विक सेल", quickSellDesc: "बस राशि लिखें — जैसे खाते में लिखते हैं।",
+    enterAmount: "राशि लिखें", markAsPaid: "पूरा भुगतान हुआ", markAsDue: "पूरा बकाया",
+    saveQuick: "सहेजें",
 
     today: "आज", yesterday: "कल", thisWeek: "इस सप्ताह", thisMonth: "इस महीने", custom: "कस्टम",
     salesLabel: "बिक्री", received: "प्राप्त", customerDue: "ग्राहक बकाया", supplierDue: "आपूर्तिकर्ता बकाया",

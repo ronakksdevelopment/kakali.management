@@ -156,6 +156,7 @@ function renderMore() {
 
 function openQuickActionSheet() {
   actionSheet([
+    { icon: 'fa-bolt', label: t('quickSell'), bg: 'var(--gold-100)', color: 'var(--gold-700)', onClick: () => openQuickSellModal() },
     { icon: 'fa-cart-shopping', label: t('sale'), bg: 'var(--blue-100)', color: 'var(--blue-700)', onClick: () => navigate('sales/new') },
     { icon: 'fa-money-bill-wave', label: t('expense'), bg: 'var(--red-100)', color: 'var(--red-700)', onClick: () => openExpenseModal() },
     { icon: 'fa-arrow-trend-up', label: t('income'), bg: 'var(--green-100)', color: 'var(--green-700)', onClick: () => openIncomeModal() },

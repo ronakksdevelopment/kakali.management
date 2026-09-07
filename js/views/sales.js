@@ -7,6 +7,7 @@ let saleFilter = 'all'; // all | due | paid
 function renderSalesList() {
   setTimeout(() => {
     document.getElementById('newSaleBtn').onclick = () => navigate('sales/new');
+    document.getElementById('quickSellBtn').onclick = () => openQuickSellModal();
     document.querySelectorAll('#saleTabs [data-f]').forEach(b => b.onclick = () => { saleFilter = b.dataset.f; renderView(); });
   }, 0);
 
@@ -17,7 +18,10 @@ function renderSalesList() {
   return `
     <div class="page-header">
       <h1>${t('sales')}</h1>
-      <button class="btn btn-primary btn-sm" id="newSaleBtn"><i class="fa-solid fa-plus"></i> ${t('newSale')}</button>
+      <div class="flex gap-2">
+        <button class="btn btn-accent btn-sm" id="quickSellBtn"><i class="fa-solid fa-bolt"></i> ${t('quickSell')}</button>
+        <button class="btn btn-primary btn-sm" id="newSaleBtn"><i class="fa-solid fa-plus"></i> ${t('newSale')}</button>
+      </div>
     </div>
     <div class="tabs mb-4" id="saleTabs">
       <button class="tab-btn ${saleFilter === 'all' ? 'active' : ''}" data-f="all">All</button>
@@ -29,12 +33,99 @@ function renderSalesList() {
         <div class="empty-icon"><i class="fa-solid fa-cart-shopping"></i></div>
         <h3>${t('noSalesYet')}</h3>
         <p>${t('recordFirstSale')}</p>
-        <button class="btn btn-primary" onclick="navigate('sales/new')"><i class="fa-solid fa-plus"></i> ${t('newSale')}</button>
+        <div class="flex gap-2" style="justify-content:center;">
+          <button class="btn btn-accent" onclick="openQuickSellModal()"><i class="fa-solid fa-bolt"></i> ${t('quickSell')}</button>
+          <button class="btn btn-primary" onclick="navigate('sales/new')"><i class="fa-solid fa-plus"></i> ${t('newSale')}</button>
+        </div>
       </div>
     ` : list.length === 0 ? `<div class="empty-state"><div class="empty-icon"><i class="fa-solid fa-magnifying-glass"></i></div><h3>${t('noResultsFound')}</h3></div>` : `
       <div class="card">${list.map(s => saleRowHtml(s)).join('')}</div>
     `}
   `;
+}
+
+/* ---------------- Quick Sell (amount-only, khata-style) ---------------- */
+function openQuickSellModal() {
+  let personId = '';
+  let paidState = 'paid'; // 'paid' | 'due'
+
+  const overlay = openModal({
+    title: t('quickSell'),
+    bodyHtml: `
+      <p class="text-sm text-muted mb-3">${t('quickSellDesc')}</p>
+      <form id="quickSellForm">
+        <div class="field">
+          <label>${t('enterAmount')} *</label>
+          <div class="input-group"><span class="prefix">${getCurrencySymbol()}</span>
+            <input class="input" type="number" min="0.01" step="0.01" name="amount" id="qsAmount" inputmode="decimal" autofocus required placeholder="0">
+          </div>
+        </div>
+        <div class="field">
+          <label>${t('selectCustomer')}</label>
+          <button type="button" class="btn btn-outline btn-block" id="qsPickCustomerBtn" style="justify-content:flex-start;">
+            <i class="fa-solid fa-user"></i> <span id="qsCustomerLabel">${t('walkInCustomer')}</span>
+          </button>
+        </div>
+        <div class="field">
+          <label>${t('paid')} / ${t('due')}</label>
+          <div class="chip-select" id="qsPaidChips">
+            <button type="button" class="chip active" data-paid="paid">${t('markAsPaid')}</button>
+            <button type="button" class="chip" data-paid="due">${t('markAsDue')}</button>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>${t('notes')}</label>
+          <input class="input" name="note" id="qsNote" placeholder="${t('description')}">
+        </div>
+      </form>
+    `,
+    footerHtml: `<button class="btn btn-primary btn-block" id="qsSaveBtn"><i class="fa-solid fa-check"></i> ${t('saveQuick')}</button>`,
+  });
+
+  overlay.querySelector('#qsPickCustomerBtn').onclick = () => {
+    const items = [
+      { icon: 'fa-user', label: t('walkInCustomer'), bg: 'var(--ink-100)', color: 'var(--ink-600)', onClick: () => { personId = ''; overlay.querySelector('#qsCustomerLabel').textContent = t('walkInCustomer'); } },
+      ...APP_STATE.customers.map(c => ({ icon: 'fa-user', label: c.name, onClick: () => { personId = c.id; overlay.querySelector('#qsCustomerLabel').textContent = c.name; } })),
+      { icon: 'fa-user-plus', label: t('addCustomer'), bg: 'var(--gold-100)', color: 'var(--gold-700)', onClick: () => openCustomerModal(null, (c) => { personId = c.id; overlay.querySelector('#qsCustomerLabel').textContent = c.name; }) },
+    ];
+    actionSheet(items);
+  };
+
+  overlay.querySelectorAll('#qsPaidChips [data-paid]').forEach(b => b.onclick = () => {
+    paidState = b.dataset.paid;
+    overlay.querySelectorAll('#qsPaidChips [data-paid]').forEach(x => x.classList.toggle('active', x === b));
+  });
+
+  const amtInput = overlay.querySelector('#qsAmount');
+  setTimeout(() => amtInput.focus(), 50);
+  amtInput.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); overlay.querySelector('#qsSaveBtn').click(); } };
+
+  overlay.querySelector('#qsSaveBtn').onclick = async () => {
+    const amount = parseFloat(amtInput.value);
+    if (!amount || amount <= 0) { showToast(t('somethingWrong'), 'error'); amtInput.focus(); return; }
+    const note = (overlay.querySelector('#qsNote').value || '').trim();
+    const paid = paidState === 'paid' ? amount : 0;
+    const due = amount - paid;
+
+    const invoiceNo = nextInvoiceNo();
+    const sale = {
+      id: uid('sale'),
+      invoiceNo,
+      date: Date.now(),
+      customerId: personId || null,
+      items: [{ productId: null, name: note || t('quickSell'), price: amount, qty: 1, taxRate: 0 }],
+      subtotal: amount, discount: 0, tax: 0, total: amount, paid, due,
+      paymentMethod: 'cash', notes: note, quickSell: true,
+      createdAt: Date.now(),
+    };
+    await DB.put('sales', sale);
+    APP_STATE.sales.push(sale);
+    await bumpInvoiceCounter();
+
+    closeModal();
+    showToast(t('savedSuccessfully'), 'success');
+    renderView();
+  };
 }
 
 /* ---------------- New Sale (cart) ---------------- */

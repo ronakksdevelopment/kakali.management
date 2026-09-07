@@ -55,6 +55,7 @@ function renderDashboard() {
 
     <div class="section-title">${t('quickActions')}</div>
     <div class="quick-actions mb-5">
+      ${qaItem('fa-bolt', t('quickSell'), 'var(--gold-700)', "openQuickSellModal()")}
       ${qaItem('fa-cart-shopping', t('sale'), 'var(--blue-700)', "navigate('sales/new')")}
       ${qaItem('fa-money-bill-wave', t('expense'), 'var(--red-500)', "openExpenseModal()")}
       ${qaItem('fa-arrow-trend-up', t('income'), 'var(--green-600)', "openIncomeModal()")}
