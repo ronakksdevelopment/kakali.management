@@ -1,0 +1,32 @@
+/* ============================================================
+   PRINT STYLES — Bills
+   ============================================================ */
+@media print {
+  body * { visibility: hidden; }
+  #printArea, #printArea * { visibility: visible; }
+  #printArea {
+    position: absolute; left: 0; top: 0; width: 100%;
+    padding: 12px;
+    font-family: 'Inter', sans-serif;
+    color: #000;
+  }
+  .no-print { display: none !important; }
+  @page { margin: 10mm; }
+}
+
+.bill-doc {
+  background: #fff; color: #111; padding: 20px; font-size: 13px; border-radius: 12px;
+}
+.bill-doc.compact { max-width: 300px; font-size: 12px; padding: 12px; margin: 0 auto; }
+.bill-doc .bill-head { text-align: center; margin-bottom: 14px; }
+.bill-doc .bill-head .biz-name { font-size: 18px; font-weight: 800; }
+.bill-doc .bill-head .biz-meta { font-size: 11px; color: #555; margin-top: 2px; }
+.bill-doc .bill-meta-row { display: flex; justify-content: space-between; font-size: 12px; margin: 10px 0; border-top: 1px dashed #999; border-bottom: 1px dashed #999; padding: 8px 0; }
+.bill-doc table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+.bill-doc th { text-align: left; font-size: 11px; border-bottom: 1.5px solid #333; padding: 4px 2px; }
+.bill-doc td { font-size: 12px; padding: 5px 2px; border-bottom: 1px dashed #ddd; }
+.bill-doc .num { text-align: right; }
+.bill-doc .bill-totals { margin-top: 10px; }
+.bill-doc .bill-totals .row { display: flex; justify-content: space-between; padding: 3px 0; font-size: 12.5px; }
+.bill-doc .bill-totals .row.grand { font-weight: 800; font-size: 16px; border-top: 1.5px solid #333; padding-top: 8px; margin-top: 6px; }
+.bill-doc .bill-foot { text-align: center; margin-top: 16px; font-size: 11px; color: #666; }
